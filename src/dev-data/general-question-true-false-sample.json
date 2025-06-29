@@ -1,0 +1,52 @@
+[
+  {
+    "question": "The Great Wall of China is visible from the Moon.",
+    "options": ["True", "False"],
+    "answer": "False"
+  },
+  {
+    "question": "An octopus has three hearts.",
+    "options": ["True", "False"],
+    "answer": "True"
+  },
+  {
+    "question": "Light travels faster than sound.",
+    "options": ["True", "False"],
+    "answer": "True"
+  },
+  {
+    "question": "The chemical symbol for gold is 'Au'.",
+    "options": ["True", "False"],
+    "answer": "True"
+  },
+  {
+    "question": "Bats are blind.",
+    "options": ["True", "False"],
+    "answer": "False"
+  },
+  {
+    "question": "Mount Everest is the tallest mountain in the world.",
+    "options": ["True", "False"],
+    "answer": "True"
+  },
+  {
+    "question": "Venus is the closest planet to the Sun.",
+    "options": ["True", "False"],
+    "answer": "False"
+  },
+  {
+    "question": "Polar bears have black skin under their white fur.",
+    "options": ["True", "False"],
+    "answer": "True"
+  },
+  {
+    "question": "The Sahara is the largest desert on Earth.",
+    "options": ["True", "False"],
+    "answer": "False"
+  },
+  {
+    "question": "Shakespeare wrote more than 30 plays.",
+    "options": ["True", "False"],
+    "answer": "True"
+  }
+]
