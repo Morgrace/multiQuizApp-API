@@ -8,7 +8,7 @@ const DB = process.env.DATABASE.replace(
 export default async function connectDB() {
   try {
     const conn = await mongoose.connect(DB);
-    console.log(`MongoDB connected: ${conn.connection.host} 🛜`);
+    console.log(`MongoDB connected: 🛜`);
   } catch (error) {
     console.error(`Failed to connect to MongoDB ${error.message}`);
   }

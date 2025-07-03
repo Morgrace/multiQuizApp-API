@@ -1,62 +1,261 @@
 [
   {
-    "question": "What is the largest planet in our Solar System?",
-    "options": ["Earth", "Jupiter", "Saturn", "Neptune"],
-    "answer": "Jupiter"
-  },
-  {
-    "question": "Which element has the chemical symbol ‘O’?",
-    "options": ["Gold", "Oxygen", "Osmium", "Oganesson"],
-    "answer": "Oxygen"
-  },
-  {
-    "question": "In which year did the first man land on the Moon?",
-    "options": ["1965", "1969", "1972", "1959"],
-    "answer": "1969"
-  },
-  {
-    "question": "What is the capital city of Japan?",
-    "options": ["Seoul", "Tokyo", "Beijing", "Kyoto"],
-    "answer": "Tokyo"
-  },
-  {
-    "question": "Who wrote the play ‘Romeo and Juliet’?",
+    "category": "nature",
+    "question": "What process do plants use to convert sunlight into chemical energy?",
     "options": [
-      "William Shakespeare",
-      "Oscar Wilde",
-      "Jane Austen",
-      "Mark Twain"
+      "Respiration",
+      "Photosynthesis",
+      "Transpiration",
+      "Fermentation"
     ],
-    "answer": "William Shakespeare"
+    "answer": "Photosynthesis"
   },
   {
-    "question": "Which animal is known as the ‘King of the Jungle’?",
-    "options": ["Lion", "Tiger", "Elephant", "Giraffe"],
-    "answer": "Lion"
+    "category": "nature",
+    "question": "Which gas makes up most of the Earth's atmosphere?",
+    "options": ["Oxygen", "Carbon Dioxide", "Nitrogen", "Helium"],
+    "answer": "Nitrogen"
   },
   {
-    "question": "What is the hardest natural substance on Earth?",
-    "options": ["Gold", "Iron", "Diamond", "Quartz"],
-    "answer": "Diamond"
+    "category": "nature",
+    "question": "What is the powerhouse of the cell?",
+    "options": ["Nucleus", "Mitochondrion", "Ribosome", "Golgi apparatus"],
+    "answer": "Mitochondrion"
   },
   {
-    "question": "Which ocean is the largest by surface area?",
-    "options": ["Atlantic", "Indian", "Arctic", "Pacific"],
-    "answer": "Pacific"
+    "category": "nature",
+    "question": "Which biome is characterized by permafrost and low vegetation?",
+    "options": ["Taiga", "Tundra", "Savanna", "Rainforest"],
+    "answer": "Tundra"
   },
   {
-    "question": "In computing, what does ‘CPU’ stand for?",
+    "category": "nature",
+    "question": "What is the term for animals that eat both plants and other animals?",
+    "options": ["Herbivores", "Carnivores", "Omnivores", "Detritivores"],
+    "answer": "Omnivores"
+  },
+  {
+    "category": "nature",
+    "question": "Which layer of Earth lies directly beneath the crust?",
+    "options": ["Outer core", "Inner core", "Mantle", "Lithosphere"],
+    "answer": "Mantle"
+  },
+  {
+    "category": "nature",
+    "question": "What phenomenon causes the sky to appear blue?",
     "options": [
-      "Central Processing Unit",
-      "Computer Personal Unit",
-      "Control Program Utility",
-      "Central Power Unit"
+      "Rayleigh scattering",
+      "Reflection",
+      "Refraction",
+      "Diffraction"
     ],
-    "answer": "Central Processing Unit"
+    "answer": "Rayleigh scattering"
   },
   {
-    "question": "Which country hosted the 2016 Summer Olympics?",
-    "options": ["China", "Brazil", "UK", "Russia"],
-    "answer": "Brazil"
+    "category": "nature",
+    "question": "Which animal is known for changing its skin color for camouflage?",
+    "options": ["Chameleon", "Cheetah", "Koala", "Penguin"],
+    "answer": "Chameleon"
+  },
+  {
+    "category": "nature",
+    "question": "What is the tallest type of grass, found in Asia?",
+    "options": ["Bluestem", "Wheat", "Bamboo", "Sedge"],
+    "answer": "Bamboo"
+  },
+  {
+    "category": "nature",
+    "question": "Which natural disaster is measured with a Richter scale?",
+    "options": ["Hurricane", "Earthquake", "Tornado", "Flood"],
+    "answer": "Earthquake"
+  },
+  {
+    "category": "math",
+    "question": "What is the value of π (pi) rounded to two decimal places?",
+    "options": ["3.14", "3.41", "3.15", "3.41"],
+    "answer": "3.14"
+  },
+  {
+    "category": "math",
+    "question": "What is 7 × 8?",
+    "options": ["54", "56", "58", "64"],
+    "answer": "56"
+  },
+  {
+    "category": "math",
+    "question": "What is the Fibonacci sequence starting numbers?",
+    "options": ["0, 1, 1, 2", "1, 2, 3, 5", "2, 3, 5, 8", "1, 1, 2, 3"],
+    "answer": "0, 1, 1, 2"
+  },
+  {
+    "category": "math",
+    "question": "What is the square root of 81?",
+    "options": ["7", "8", "9", "10"],
+    "answer": "9"
+  },
+  {
+    "category": "math",
+    "question": "What is 15% of 200?",
+    "options": ["20", "25", "30", "35"],
+    "answer": "30"
+  },
+  {
+    "category": "math",
+    "question": "What is the next prime number after 7?",
+    "options": ["9", "10", "11", "13"],
+    "answer": "11"
+  },
+  {
+    "category": "math",
+    "question": "What is the formula for the area of a circle?",
+    "options": ["πr²", "2πr", "πd", "πr³"],
+    "answer": "πr²"
+  },
+  {
+    "category": "math",
+    "question": "What is the value of x if 2x + 3 = 11?",
+    "options": ["3", "4", "5", "6"],
+    "answer": "4"
+  },
+  {
+    "category": "math",
+    "question": "What is the sum of angles in a triangle?",
+    "options": ["90°", "180°", "270°", "360°"],
+    "answer": "180°"
+  },
+  {
+    "category": "math",
+    "question": "What is 2 to the power of 5?",
+    "options": ["16", "32", "64", "128"],
+    "answer": "32"
+  },
+  {
+    "category": "general",
+    "question": "What is the chemical symbol for water?",
+    "options": ["WO", "H2O", "O2", "HO2"],
+    "answer": "H2O"
+  },
+  {
+    "category": "general",
+    "question": "Who painted the Mona Lisa?",
+    "options": [
+      "Vincent Van Gogh",
+      "Pablo Picasso",
+      "Leonardo da Vinci",
+      "Michelangelo"
+    ],
+    "answer": "Leonardo da Vinci"
+  },
+  {
+    "category": "general",
+    "question": "What year did the Titanic sink?",
+    "options": ["1905", "1912", "1920", "1930"],
+    "answer": "1912"
+  },
+  {
+    "category": "general",
+    "question": "Which language has the most native speakers?",
+    "options": ["English", "Spanish", "Mandarin", "Hindi"],
+    "answer": "Mandarin"
+  },
+  {
+    "category": "general",
+    "question": "What is the capital of Australia?",
+    "options": ["Sydney", "Melbourne", "Canberra", "Perth"],
+    "answer": "Canberra"
+  },
+  {
+    "category": "general",
+    "question": "Who wrote '1984'?",
+    "options": ["George Orwell", "Aldous Huxley", "J.K. Rowling", "Mark Twain"],
+    "answer": "George Orwell"
+  },
+  {
+    "category": "general",
+    "question": "What is the tallest building in the world as of 2025?",
+    "options": [
+      "Shanghai Tower",
+      "Burj Khalifa",
+      "Abraj Al-Bait",
+      "One World Trade Center"
+    ],
+    "answer": "Burj Khalifa"
+  },
+  {
+    "category": "general",
+    "question": "Which planet is known as the Red Planet?",
+    "options": ["Venus", "Mars", "Jupiter", "Saturn"],
+    "answer": "Mars"
+  },
+  {
+    "category": "general",
+    "question": "What does HTTP stand for?",
+    "options": [
+      "HyperText Transfer Protocol",
+      "HighText Transfer Protocol",
+      "HyperTransfer Text Protocol",
+      "HyperText Transmission Protocol"
+    ],
+    "answer": "HyperText Transfer Protocol"
+  },
+  {
+    "category": "general",
+    "question": "Which organ is responsible for pumping blood throughout the human body?",
+    "options": ["Liver", "Brain", "Heart", "Lungs"],
+    "answer": "Heart"
+  },
+  {
+    "category": "sports",
+    "question": "How many players are there in a baseball team on the field?",
+    "options": ["7", "8", "9", "10"],
+    "answer": "9"
+  },
+  {
+    "category": "sports",
+    "question": "Which country won the FIFA World Cup in 2018?",
+    "options": ["Germany", "Brazil", "France", "Argentina"],
+    "answer": "France"
+  },
+  {
+    "category": "sports",
+    "question": "In which sport is the term 'love' used for a score of zero?",
+    "options": ["Badminton", "Tennis", "Table Tennis", "Squash"],
+    "answer": "Tennis"
+  },
+  {
+    "category": "sports",
+    "question": "How many rings are there on the Olympic flag?",
+    "options": ["4", "5", "6", "7"],
+    "answer": "5"
+  },
+  {
+    "category": "sports",
+    "question": "Which sport uses the terms 'strike' and 'spare'?",
+    "options": ["Cricket", "Bowling", "Baseball", "Golf"],
+    "answer": "Bowling"
+  },
+  {
+    "category": "sports",
+    "question": "In basketball, how many points is a free throw worth?",
+    "options": ["1", "2", "3", "4"],
+    "answer": "1"
+  },
+  {
+    "category": "sports",
+    "question": "Which country hosted the 2012 Summer Olympics?",
+    "options": ["China", "UK", "Brazil", "Japan"],
+    "answer": "UK"
+  },
+  {
+    "category": "sports",
+    "question": "What is the maximum score in a single frame of bowling?",
+    "options": ["30", "20", "10", "40"],
+    "answer": "30"
+  },
+  {
+    "category": "sports",
+    "question": "Which sport features the 'Tour de France'?",
+    "options": ["Cycling", "Running", "Swimming", "Skiing"],
+    "answer": "Cycling"
   }
 ]

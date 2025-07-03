@@ -21,20 +21,16 @@ const trueFalseQuestionSchema = mongoose.Schema({
 
         return Array.isArray(value) && value.every(eitherTrueOrFalse);
       },
-      message: "Options must be exactly ['True', 'False']",
+      message: "Options must be exactly ['true', 'false']",
     },
   },
   answer: {
     type: String,
     required: [true, "A quiz must have an answer"],
     trim: true,
-    validate: {
-      validator(val) {
-        return Array.isArray(this.options) && this.options.includes(val);
-      },
-      message(props) {
-        return `Answer "${props.value}" is invalid; Answer must be either True or False`;
-      },
+    enum: {
+      values: ["true", "false"],
+      message: "Answer is either: true or false",
     },
   },
 });

@@ -5,14 +5,13 @@ import {
   getAllQuestions,
   getQuestion,
   updateQuestion,
-} from "../controllers/generalController.js";
+} from "../controllers/trueFalseController.js";
 
 const router = express.Router();
 
-router.route("/").get(getAllQuestions).post(createQuestion);
-
+router.route("/:category").get(getAllQuestions).post(createQuestion);
 router
-  .route("/:id")
+  .route("/:category/:id")
   .get(getQuestion)
   .patch(updateQuestion)
   .delete(deleteQuestion);
