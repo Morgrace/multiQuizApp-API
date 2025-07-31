@@ -1,21 +1,44 @@
 import js from "@eslint/js";
+import tsParser from "@typescript-eslint/parser";
+import tsPlugin from "@typescript-eslint/eslint-plugin";
 import globals from "globals";
-import { defineConfig } from "eslint/config";
 
-export default defineConfig([
+export default [
+  // JavaScript files configuration
   {
-    files: ["**/*.{js,mjs,cjs}"],
-    plugins: { js },
-    extends: ["js/recommended"],
-  },
-  {
-    files: ["**/*.{js,mjs,cjs}"],
-    languageOptions: { globals: globals.browser },
-  },
-  {
-    env: {
-      node: true,
-      es2022: true,
+    files: ["**/*.{js,cjs,mjs}"],
+    ignores: ["node_modules/**", "dist/**"],
+    languageOptions: {
+      ecmaVersion: "latest",
+      sourceType: "module",
+      globals: {
+        ...globals.node,
+        ...globals.browser,
+      },
+    },
+    rules: {
+      ...js.configs.recommended.rules,
     },
   },
-]);
+
+  // TypeScript files configuration
+  {
+    files: ["**/*.{ts,tsx}"],
+    ignores: ["node_modules/**", "dist/**"],
+    languageOptions: {
+      parser: tsParser,
+      ecmaVersion: "latest",
+      sourceType: "module",
+      globals: {
+        ...globals.node,
+        ...globals.browser,
+      },
+    },
+    plugins: {
+      "@typescript-eslint": tsPlugin,
+    },
+    rules: {
+      ...tsPlugin.configs.recommended.rules,
+    },
+  },
+];
