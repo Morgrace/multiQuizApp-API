@@ -1,9 +1,11 @@
+import { Request } from "express";
 import MultiOption from "../models/multiOptionModel";
+type ParsedQs = Request["query"];
 
 export class APIFeatures {
   constructor(
     public query = MultiOption.find(),
-    public queryString: Record<string, number | string>
+    private queryString: ParsedQs
   ) {}
   applyFilter() {
     const queryObj = { ...this.queryString };
@@ -13,7 +15,6 @@ export class APIFeatures {
     // converts URL-friendly operators to MongoDb operators;
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt}lte|lt)\b/g, (match) => `$${match}`);
-
     this.query = this.query.find(JSON.parse(queryStr));
     return this;
   }

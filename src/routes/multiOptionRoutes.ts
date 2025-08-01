@@ -7,7 +7,7 @@ import {
   updateQuestion,
 } from "../controllers/multiOptionController.js";
 import AppError from "../utils/appError.js";
-import { getAllQuestions } from "../controllers/trueFalseController.js";
+import { getAllQuestions } from "../controllers/multiOptionController.js";
 
 const router = express.Router();
 
