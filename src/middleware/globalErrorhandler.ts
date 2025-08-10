@@ -1,7 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import AppError from "../utils/appError";
+import { handleDuplicateFieldsDB } from "../utils/errors/handleDuplicateFieldDB";
+import { handleValidationErrorDB } from "../utils/errors/handleValidationErrorDB";
+import { handleCastErrorDB } from "../utils/errors/handleCastErrorDB";
 
-interface IAppError extends Error {
+export interface IAppError extends Error {
   statusCode: number;
   status: "fail" | "error";
   isOperational: boolean;
@@ -10,6 +12,21 @@ interface IAppError extends Error {
   path?: string;
   value?: string;
   keyValue?: Record<string, string>;
+  errors?: Record<
+    string,
+    {
+      message: string;
+      name: string;
+      properties: {
+        message: string;
+        type: string;
+        path: string;
+      };
+      kind: string;
+      path: string;
+      value: unknown;
+    }
+  >;
 }
 function sendErrorDev(err: IAppError, res: Response) {
   res.status(err.statusCode).json({
@@ -34,55 +51,6 @@ function sendErrorProd(err: IAppError, res: Response) {
   }
 }
 
-const handleDuplicateFieldsDB = (err: IAppError) => {
-  let value = "";
-  let field = "";
-
-  // First, try to get the duplicate value from the keyValue object (cleanest approach)
-  if (err.keyValue) {
-    const duplicateField = Object.keys(err.keyValue)[0];
-    field = duplicateField;
-    value = err.keyValue[duplicateField];
-  } else {
-    // Fallback: parse the error message for the duplicate value
-    // Format: dup key: { fieldName: "value" }
-    const dupKeyMatch = err.errmsg?.match(
-      /dup key:\s*{\s*([^:]+):\s*"([^"]+)"\s*}/
-    );
-
-    if (dupKeyMatch) {
-      field = dupKeyMatch[1].trim();
-      value = dupKeyMatch[2];
-    } else {
-      // Final fallback: try to extract any quoted value from the error message
-      const quotedMatch = err.errmsg?.match(/"([^"]+)"/);
-      if (quotedMatch) {
-        value = quotedMatch[1];
-      }
-    }
-  }
-
-  // Create an informative error message
-  const fieldInfo = field ? ` for field '${field}'` : "";
-  const valueInfo = value ? `: '${value}'` : "";
-  const message = `Duplicate field value${fieldInfo}${valueInfo}. Please use another value`;
-
-  return new AppError(message, 400);
-};
-
-const handleValidationErrorDB = (err: IAppError): AppError => {
-  const regex = /^[^:]+:\s*(.+)$/;
-  const match = err.message.match(regex);
-  const cleanMessage = match ? match[1] : err.message;
-  const message = `Invalid input data. ${cleanMessage}`;
-  return new AppError(message, 400);
-};
-
-const handleCastErrorDB = (err: IAppError): AppError => {
-  const message = `Invalid ${err.path}: ${err.value}`;
-  return new AppError(message, 400);
-};
-
 function globalErrorHandler(
   err: IAppError,
   req: Request,
@@ -103,10 +71,17 @@ function globalErrorHandler(
       stack: err.stack,
     };
 
-    if (error.code === 11000) error = handleDuplicateFieldsDB(error);
-    if (error.name === "ValidationError")
+    if (error.code === 11000) {
+      error = handleDuplicateFieldsDB(error);
+    }
+
+    if (error.name === "ValidationError") {
       error = handleValidationErrorDB(error);
-    if (error.name === "CastError") error = handleCastErrorDB(error);
+    }
+
+    if (error.name === "CastError") {
+      error = handleCastErrorDB(error);
+    }
 
     sendErrorProd(error, res);
   }

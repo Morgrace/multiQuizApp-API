@@ -3,11 +3,12 @@ import {
   createQuestion,
   deleteQuestion,
   getAllQuestionByCatergory,
+  getAllQuestions,
   getQuestion,
   updateQuestion,
 } from "../controllers/multiOptionController.js";
+import { multiOptionBodyValidator } from "../middleware/mulitOptionBodyValidator.js";
 import AppError from "../utils/appError.js";
-import { getAllQuestions } from "../controllers/multiOptionController.js";
 
 const router = express.Router();
 
@@ -28,7 +29,7 @@ router.param("category", (req, res, next, category) => {
 router
   .route("/category/:category")
   .get(getAllQuestionByCatergory)
-  .post(createQuestion);
+  .post(multiOptionBodyValidator, createQuestion);
 
 //NOTE  this returns a question based on category specificity based on id; this is the right way;
 router

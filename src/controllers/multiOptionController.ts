@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import MultiOption, { IMultiOption } from "../models/multiOptionModel.js";
+import MultiOption from "../models/multiOptionModel.js";
+import { APIFeatures } from "../utils/apiFeatures.js";
 import AppError from "../utils/appError.js";
 import catchAsync from "../utils/catchAsync.js";
-import { APIFeatures } from "../utils/apiFeatures.js";
 
 export const getAllQuestions = catchAsync(async function (
   req: Request,
@@ -10,7 +10,11 @@ export const getAllQuestions = catchAsync(async function (
 ) {
   const query = req.query;
 
-  const features = new APIFeatures(MultiOption.find(), query).applyFilter();
+  const features = new APIFeatures(MultiOption.find(), query)
+    .applyFilter()
+    .applySort()
+    .applyFieldLimiting()
+    .applyPagination();
 
   const allQuestions = await features.query;
 
@@ -26,7 +30,16 @@ export const getAllQuestionByCatergory = catchAsync(async function (
   res: Response
 ) {
   const { category } = req.params;
-  const questions = await MultiOption.find({ category });
+
+  const features = new APIFeatures(MultiOption.find(), req?.query)
+    .applyFilter()
+    .applySort()
+    .applyFieldLimiting()
+    .applyPagination();
+
+  features.query = features.query.find({ category });
+
+  const questions = await features.query;
 
   res.status(200).json({
     status: "success",
@@ -57,36 +70,7 @@ export const createQuestion = catchAsync(async function (
   res: Response,
   next: NextFunction
 ) {
-  const isArray = Array.isArray(req.body);
-  const routeCategory = req.params.category;
-
-  const bodyValidation = {
-    isArray() {
-      const invalidQuestion = req.body.find(
-        (question: IMultiOption) =>
-          question.category && question.category !== routeCategory
-      );
-      if (invalidQuestion) {
-        return next(
-          new AppError(
-            `Category mismatch: URL specifies '${routeCategory}' but body contains question with category '${invalidQuestion.category}'`,
-            400
-          )
-        );
-      }
-    },
-    isObject() {
-      if (req.body?.category && req.body?.category !== routeCategory)
-        return next(
-          new AppError(
-            `Category mismatch: URL specifies '${routeCategory}' but body contains question with category '${req.body.category}'`,
-            400
-          )
-        );
-    },
-  };
-
-  bodyValidation[(isArray && "isArray") || "isObject"]();
+  //put the middle wear
 
   const newQuestion = await MultiOption.create(req.body);
 

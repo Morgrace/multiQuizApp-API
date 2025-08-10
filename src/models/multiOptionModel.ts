@@ -53,4 +53,5 @@ const MultiOption = mongoose.model<IMultiOption>(
   "MultiOption",
   multiOptionSchema
 );
+
 export default MultiOption;
