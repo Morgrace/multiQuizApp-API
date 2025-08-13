@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { IMultiOption } from "../models/multiOptionModel";
-import AppError from "../utils/appError";
+import { IMultiOption } from "../../models/multiOptionModel";
+import AppError from "../../utils/appError";
 
 export const multiOptionBodyValidator = (
   req: Request,

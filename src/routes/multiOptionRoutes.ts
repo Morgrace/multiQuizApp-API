@@ -7,7 +7,7 @@ import {
   getQuestion,
   updateQuestion,
 } from "../controllers/multiOptionController.js";
-import { multiOptionBodyValidator } from "../middleware/mulitOptionBodyValidator.js";
+import { multiOptionBodyValidator } from "../middleware/validation/mulitOptionBodyValidator.js";
 import AppError from "../utils/appError.js";
 
 const router = express.Router();

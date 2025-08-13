@@ -2,6 +2,10 @@ import { NextFunction, Request, Response } from "express";
 import { handleDuplicateFieldsDB } from "../utils/errors/handleDuplicateFieldDB";
 import { handleValidationErrorDB } from "../utils/errors/handleValidationErrorDB";
 import { handleCastErrorDB } from "../utils/errors/handleCastErrorDB";
+import { ZodError } from "zod";
+import { handleZodError } from "../utils/errors/handleZodError";
+import { handleJWTError } from "../utils/errors/handleJWTError";
+import { handleJWTExpiredError } from "../utils/errors/handleJWTExpiredError";
 
 export interface IAppError extends Error {
   statusCode: number;
@@ -71,6 +75,11 @@ function globalErrorHandler(
       stack: err.stack,
     };
 
+    //NOTE the main err object is being passed here
+    if (err instanceof ZodError) {
+      error = handleZodError(err);
+    }
+
     if (error.code === 11000) {
       error = handleDuplicateFieldsDB(error);
     }
@@ -81,6 +90,14 @@ function globalErrorHandler(
 
     if (error.name === "CastError") {
       error = handleCastErrorDB(error);
+    }
+
+    if (error.name === "JsonWebTokenError") {
+      handleJWTError();
+    }
+
+    if (error.name === "TokenExpiredError") {
+      handleJWTExpiredError();
     }
 
     sendErrorProd(error, res);
