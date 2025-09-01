@@ -2,12 +2,13 @@ import express from "express";
 import {
   createQuestion,
   deleteQuestion,
-  getAllQuestionByCatergory,
   getAllQuestions,
   getQuestion,
   updateQuestion,
 } from "../controllers/multiOptionController.js";
-import { multiOptionBodyValidator } from "../middleware/validation/mulitOptionBodyValidator.js";
+import { protect } from "../middleware/auth/protect.middleware.js";
+import { restrictTo } from "../middleware/auth/restrictTo.middleware.js";
+import { multiOptionBodyValidator } from "../middleware/validation/mulitOptionBodyValidator.middleware.js";
 import AppError from "../utils/appError.js";
 
 const router = express.Router();
@@ -15,28 +16,33 @@ const router = express.Router();
 const ALLOWED_CATEGORIES = ["general", "math", "nature", "sports"] as const;
 
 router.param("category", (req, res, next, category) => {
-  if (!ALLOWED_CATEGORIES.includes(category))
+  const cat = category.toLowerCase();
+  if (!ALLOWED_CATEGORIES.includes(cat))
     return next(
       new AppError(
         `${category} is not supported. Use supported categories: ${ALLOWED_CATEGORIES}`,
-        404
+        400
       )
     );
+  req.params.category = cat;
   next();
 });
-
-// returns all questions based on category; and create questions to that category;
-router
-  .route("/category/:category")
-  .get(getAllQuestionByCatergory)
-  .post(multiOptionBodyValidator, createQuestion);
-
-//NOTE  this returns a question based on category specificity based on id; this is the right way;
+// MORE SPECIFIC ROUTES FIRST
 router
   .route("/category/:category/:id")
   .get(getQuestion)
-  .patch(updateQuestion)
-  .delete(deleteQuestion);
+  .patch(protect, restrictTo("admin", "premium"), updateQuestion)
+  .delete(protect, restrictTo("admin", "premium"), deleteQuestion);
 
-router.route("/").get(getAllQuestions);
+router
+  .route("/category/:category")
+  .get(getAllQuestions)
+  .post(
+    protect,
+    restrictTo("admin", "premium"),
+    multiOptionBodyValidator,
+    createQuestion
+  );
+
+router.route("/").get(protect, restrictTo("admin"), getAllQuestions);
 export default router;

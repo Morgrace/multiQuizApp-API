@@ -1,33 +1,25 @@
-import mongoose, { Document } from "mongoose";
-import { z } from "zod";
 import bcrypt from "bcrypt";
-
-export const userZodSchema = z
-  .object({
-    name: z.string().min(2, "Name is required").max(50),
-    email: z.email("Invalid email format"),
-    password: z
-      .string()
-      .min(8, "Password must be at least 8 characters")
-      .max(30),
-    passwordConfirm: z.string(),
-  })
-  .refine((data) => data.password === data.passwordConfirm, {
-    message: "Password don't match",
-    path: ["passwordConfirm"],
-  });
+import mongoose, { Document, Query } from "mongoose";
+import crypto from "node:crypto";
 
 export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
-  passwordChangedAt?: Date;
   photo?: string;
+  role: "user" | "premium" | "admin";
+  passwordChangedAt?: Date;
+  passwordResetToken?: string;
+  passwordResetExpires?: Date;
+  closedAccount?: Date;
+  active: boolean;
+
   correctPassword(
     candidatePassword: string,
     userPassword: string
   ): Promise<boolean>;
-  changePasswordAfter(JWTTimestamp: number): boolean;
+  changedPasswordAfter(JWTTimestamp: number): boolean;
+  createPasswordResetToken(): string;
 }
 
 const userSchema = new mongoose.Schema<IUser>({
@@ -41,20 +33,52 @@ const userSchema = new mongoose.Schema<IUser>({
     required: true,
     unique: true,
     lowercase: true,
-    validate: [],
   },
   password: {
     type: String,
     required: true,
     select: false,
   },
-  passwordChangedAt: Date,
+  role: {
+    type: String,
+    enum: ["user", "premium", "admin"],
+    default: "user",
+  },
+  active: {
+    type: Boolean,
+    default: true,
+    select: false,
+  },
   photo: String,
+  passwordChangedAt: { type: Date, select: false },
+  passwordResetToken: { type: String, select: false },
+  passwordResetExpires: { type: Date, select: false },
+  closedAccount: { type: Date, select: false },
 });
 
+userSchema.virtual("MultiOptionQuestion", {
+  ref: "MultiOption",
+  foreignField: "createdBy",
+  localField: "_id",
+});
+
+//pre-save middleware for password hashing
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 12);
+  next();
+});
+
+userSchema.pre("save", function (next) {
+  if (!this.isModified("password") || this.isNew) return next();
+  this.passwordChangedAt = new Date(Date.now() - 1000);
+  next();
+});
+
+userSchema.pre(/^find/, function (this: Query<IUser[], IUser>, next) {
+  const opts = this.getOptions() as { includeInactive?: boolean };
+  if (opts.includeInactive) return next();
+  this.find({ active: { $ne: false } });
   next();
 });
 
@@ -72,14 +96,30 @@ userSchema.methods.correctPassword = async function (
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-userSchema.methods.changePasswordAfter = function (JWTTimestamp: number) {
+userSchema.methods.changedPasswordAfter = function (
+  this: IUser,
+  JWTTimestamp: number
+) {
   if (this.passwordChangedAt) {
-    const changeTimestamp =
-      parseInt(this.passwordChangedAt.getTime(), 10) / 1000;
-    //   NOTE remember to invert this to experiment;
-    return JWTTimestamp < changeTimestamp;
+    const changedTimestamp = Math.floor(
+      this.passwordChangedAt.getTime() / 1000
+    );
+    return changedTimestamp > JWTTimestamp;
   }
   return false;
+};
+
+userSchema.methods.createPasswordResetToken = function (this: IUser) {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+
+  this.passwordResetToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  this.passwordResetExpires = new Date(Date.now() + 10 * 60 * 1000); //10mins
+
+  return resetToken; // Return the unencrypted token
 };
 
 export const User = mongoose.model<IUser>("User", userSchema);

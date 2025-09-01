@@ -1,4 +1,4 @@
-import { IAppError } from "../../middleware/globalErrorhandler";
+import { IAppError } from "../../middleware/globalErrorHandler.middleware";
 import AppError from "../appError";
 
 export const handleDuplicateFieldsDB = (err: IAppError) => {
