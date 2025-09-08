@@ -6,6 +6,7 @@ function sendErrorDev(err, res) {
     error: err,
   });
 }
+//
 function sendErrorProd(err, res) {
   if (err.isOperational) {
     res.status(err.statusCode).json({
